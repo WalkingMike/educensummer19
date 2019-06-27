@@ -5,6 +5,6 @@ public class ExampleTest {
 
     @Test
     void example() {
-        System.out.println("Hello Test World!");
+        System.out.println("Hello Test World!!");
     }
 }

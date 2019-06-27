@@ -42,7 +42,7 @@ public class Calculator extends JPanel implements ActionListener{
                     display.setText(display.getText() + command);
                 calculating = false;
             } else {
-                if (calculating) {
+                if (calculating){
                     if (command.equals("-")) {
                         display.setText(command);
                         calculating = false;
