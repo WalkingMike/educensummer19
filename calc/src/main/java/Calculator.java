@@ -5,14 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Calculator extends JPanel implements ActionListener {
+public class Calculator extends JPanel implements ActionListener{
 
     private JTextField display = new JTextField("0");
     private double result = 0;
     private char operator = '=';
     private boolean calculating = true;
 
-    Calculator() {
+    Calculator(){
         setLayout(new BorderLayout());
         display.setEditable(false);
         add(display, "North");
@@ -28,14 +28,14 @@ public class Calculator extends JPanel implements ActionListener {
         add(panel, "Center");
     }
 
-    public void actionPerformed(ActionEvent evt) {
+    public void actionPerformed(ActionEvent evt){
         String command = evt.getActionCommand();
         if (!command.equals(" ")) {
             if (command.equals("C")) {
                 display.setText("0");
                 calculating = true;
             } else if ('0' <= command.charAt(0) && command.charAt(0) <= '9'
-                       || (command.equals(".") && !display.getText().contains("."))) {
+                       || (command.equals(".") && !display.getText().contains("."))){
                 if (calculating)
                     display.setText(command);
                 else
@@ -58,7 +58,7 @@ public class Calculator extends JPanel implements ActionListener {
         }
     }
 
-    private void calculate(double n) {
+    private void calculate(double n){
         switch(operator){
             case '+': result += n; break;
             case '-': result -= n; break;
@@ -69,12 +69,12 @@ public class Calculator extends JPanel implements ActionListener {
         display.setText("" + result);
     }
 
-    public void run() {
+    public void run(){
         JFrame frame = new JFrame();
         frame.setTitle("Calculator");
         frame.setSize(300, 300);
         frame.setResizable(false);
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
         Container contentPane = frame.getContentPane();
