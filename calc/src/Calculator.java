@@ -73,6 +73,7 @@ public class Calculator extends JPanel implements ActionListener {
         JFrame frame = new JFrame();
         frame.setTitle("Calculator");
         frame.setSize(300, 300);
+        frame.setResizable(false);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
