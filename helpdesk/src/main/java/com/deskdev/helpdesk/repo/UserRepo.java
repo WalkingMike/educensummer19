@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepo extends JpaRepository<User, Long> {
-    @Query(value = "SELECT u.id FROM \"user\" u WHERE u.login = '?1'", nativeQuery = true)
+    @Query(value = "SELECT u.user_id FROM \"user\" u WHERE u.login = '?1'", nativeQuery = true)
     User findUserByLogin(String login);
 
-    @Query(value = "UPDATE \"user\" SET role_id = (SELECT r.id FROM role r WHERE r.role_description = ?2) WHERE login = ?1", nativeQuery = true)
+    @Query(value = "UPDATE \"user\" SET role_id = (SELECT r.role_id FROM role r WHERE r.role_description = ?2) WHERE login = ?1", nativeQuery = true)
     void modifyUserRole(String login, String role);
 }
