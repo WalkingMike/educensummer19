@@ -2,6 +2,9 @@ package com.deskdev.helpdesk.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -34,5 +37,6 @@ public class Reply {
     //@JsonIgnore
     @ManyToOne
     @JoinColumn(name="topic_id", nullable = false, insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Topic topic;
 }
