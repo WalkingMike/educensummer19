@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class TopicController {
@@ -17,6 +17,7 @@ public class TopicController {
 
     @RequestMapping(value = "/topic/selectall", method = RequestMethod.GET)
     public @ResponseBody List<Topic> selectAll() {
+
         return topicService.getAll();
     }
 

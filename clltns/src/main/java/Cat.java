@@ -1,5 +1,9 @@
 import java.lang.Integer;
 
+/**
+ * @author WalkingMike
+ * @version 1.0
+ */
 public class Cat implements Comparable<Cat>{
     private int legs;
     private String voice;

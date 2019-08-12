@@ -9,16 +9,25 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     @Autowired
     private final UserRepo userRepo;
+    @Autowired
+    private final RoleService roleService;
 
     @Transactional
     public List<User> getAll(){
         return userRepo.findAll();
+    }
+
+    @Transactional
+    public User getUserByID(long id){
+        User usr = userRepo.findById(id).orElseThrow(() -> new RuntimeException());
+        return usr;
     }
 
     @Transactional
@@ -33,11 +42,13 @@ public class UserService {
 
     @Transactional
     public void removeUserByLogin(String login){
-        userRepo.delete(userRepo.findUserByLogin(login));
+        userRepo.deleteById(userRepo.findUserIDByLogin(login));
     }
 
     @Transactional
     public void modifyUserRole(String login, String role){
-        userRepo.modifyUserRole(login, role);
+        User usr = userRepo.findUserByLogin(login);
+        usr.setRole(roleService.getRoleByName(role));
+        userRepo.save(usr);
     }
 }

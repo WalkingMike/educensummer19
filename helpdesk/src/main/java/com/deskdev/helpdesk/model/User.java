@@ -1,7 +1,7 @@
 package com.deskdev.helpdesk.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -29,13 +29,27 @@ public class User {
     @Column(name="register_date")
     private Date registerDate;
 
+    @Column(name = "role_id")
+    private Long roleID;
+
+    @Column(name = "region_id")
+    private Long regionID;
+
     //@JsonIgnore
     @OneToOne
-    @JoinColumn(name="role_id", referencedColumnName = "role_id")
+    @JoinColumn(name="role_id", nullable = false, insertable = false, updatable = false)
     private Role role;
 
     //@JsonIgnore
     @OneToOne
-    @JoinColumn(name="region_id", referencedColumnName = "region_id")
+    @JoinColumn(name="region_id", nullable = false, insertable = false, updatable = false)
     private Region region;
+
+    public User() {
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof User;
+    }
+
 }

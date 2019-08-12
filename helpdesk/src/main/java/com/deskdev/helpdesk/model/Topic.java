@@ -23,14 +23,20 @@ public class Topic {
     @Column(name="topic_date")
     private Date topicDate;
 
+    @Column(name="creator_id")
+    private Long creatorID;
+
+    @Column(name="region_id")
+    private Long regionID;
+
     //@JsonIgnore
     @OneToOne
-    @JoinColumn(name="creator_id", referencedColumnName = "user_id")
+    @JoinColumn(name="creator_id", insertable = false, updatable = false)
     private User creator;
 
     //@JsonIgnore
     @OneToOne
-    @JoinColumn(name="region_id", referencedColumnName = "region_id")
+    @JoinColumn(name="region_id", insertable = false, updatable = false)
     private Region region;
 }
 

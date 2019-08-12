@@ -20,13 +20,19 @@ public class Reply {
     @Column(name="reply_date")
     private Date replyDate;
 
+    @Column(name="author_id")
+    private Long authorID;
+
+    @Column(name="topic_id")
+    private Long topicID;
+
     //@JsonIgnore
     @ManyToOne
-    @JoinColumn(name="author_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name="author_id", nullable = false, insertable = false, updatable = false)
     private User author;
 
     //@JsonIgnore
     @ManyToOne
-    @JoinColumn(name="topic_id", referencedColumnName = "topic_id")
+    @JoinColumn(name="topic_id", nullable = false, insertable = false, updatable = false)
     private Topic topic;
 }
