@@ -30,7 +30,7 @@ public class Topic {
     private Long regionID;
 
     //@JsonIgnore
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="creator_id", insertable = false, updatable = false)
     private User creator;
 
