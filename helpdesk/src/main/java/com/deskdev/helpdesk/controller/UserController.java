@@ -44,4 +44,5 @@ public class UserController {
     public void modifyUserRole(@RequestParam String login, @RequestParam String role) {
         usrService.modifyUserRole(login, role);
     }
+
 }

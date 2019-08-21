@@ -2,18 +2,20 @@ package com.deskdev.helpdesk.services;
 
 import com.deskdev.helpdesk.model.User;
 import com.deskdev.helpdesk.repo.UserRepo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
     @Autowired
     private final UserRepo userRepo;
     @Autowired
@@ -31,7 +33,25 @@ public class UserService {
     }
 
     @Transactional
+    public UserDetails loadUserByUsername(String login){
+        User usr = userRepo.findUserByLogin(login);
+        if (usr != null)
+        {
+            return usr;
+        }
+        return null;
+    }
+
+    @PostConstruct
+    public void init() {
+        User usr = userRepo.findUserByLogin("user");
+        usr.setPassword(new BCryptPasswordEncoder().encode("user"));
+        userRepo.save(usr);
+    }
+
+    @Transactional
     public void addUser(User usr){
+        usr.setPassword(new BCryptPasswordEncoder().encode(usr.getPassword()));
         userRepo.save(usr);
     }
 
