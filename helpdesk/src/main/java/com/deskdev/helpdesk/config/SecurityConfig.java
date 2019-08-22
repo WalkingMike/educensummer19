@@ -1,65 +1,76 @@
 package com.deskdev.helpdesk.config;
 
-import com.deskdev.helpdesk.config.security.JWTAuthenticationFilter;
-import com.deskdev.helpdesk.config.security.JWTLoginFilter;
+import com.deskdev.helpdesk.config.security.JwtAuthEntryPoint;
+import com.deskdev.helpdesk.config.security.JwtAuthTokenFilter;
+import com.deskdev.helpdesk.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
+@Configuration("SecurityConfiguration")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private UserService userService;
-//
-//    @Bean
-//    PasswordEncoder bcryptPasswordEncoder()
-//    {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
+    @Autowired
+    UserService userDetailsService;
+
+    @Autowired
+    private JwtAuthEntryPoint unauthorizedHandler;
+
+    @Bean
+    public JwtAuthTokenFilter authenticationJwtTokenFilter() {
+        return new JwtAuthTokenFilter();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(16);
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.headers().cacheControl();
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+//                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().authenticated()
-//                .and().formLogin()
-//                .defaultSuccessUrl("/swagger-ui")
-//                .and().logout().logoutSuccessUrl("/").permitAll()
-                .and()
-                .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .csrf().disable();
+//                .authorizeRequests()
+//                .antMatchers(ALL_PATH).permitAll();
     }
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(userService)
-//                .passwordEncoder(bcryptPasswordEncoder());
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("admin")
-//                .roles("ADMIN");
-//    }
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/api/auth/**");
+    }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        UserDetails user = User.withUsername("user")
-//                .password(encoder.encode("password"))
-//                .roles("USER").build();
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        manager.createUser(user);
-//        return manager;
-//
-//    }
 }

@@ -1,25 +1,30 @@
 package com.deskdev.helpdesk.services;
 
+import com.deskdev.helpdesk.config.security.UserPrinciple;
 import com.deskdev.helpdesk.model.User;
 import com.deskdev.helpdesk.repo.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Service
+@Service("userDetailsService")
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
+
     @Autowired
     private final UserRepo userRepo;
     @Autowired
     private final RoleService roleService;
+
+    @Autowired
+    private final PasswordEncoder bCrypt;
 
     @Transactional
     public List<User> getAll(){
@@ -33,25 +38,38 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDetails loadUserByUsername(String login){
-        User usr = userRepo.findUserByLogin(login);
-        if (usr != null)
+    public UserDetails loadUserByUsername(String username){
+        User user = userRepo.findUserByLogin(username);
+//        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
+//        if (user != null) {
+//            builder = org.springframework.security.core.userdetails.User.withUsername(username);
+//            builder.password(user.getPassword());
+//            builder.roles(user.getRole().getAuthority());
+//        } else {
+//            throw new UsernameNotFoundException("User not found.");
+//        }
+//        System.out.println(user.getPassword());
+//        return builder.build();
+
+        System.out.println(UserPrinciple.build(user));
+        if (user != null)
         {
-            return usr;
+            return UserPrinciple.build(user);
         }
         return null;
     }
 
     @PostConstruct
     public void init() {
-        User usr = userRepo.findUserByLogin("user");
-        usr.setPassword(new BCryptPasswordEncoder().encode("user"));
-        userRepo.save(usr);
+        User newUser = userRepo.findUserByLogin("test");
+        newUser.setPassword(bCrypt.encode("test"));
+        newUser.setRoleID((long) 3);
+        userRepo.save(newUser);
     }
 
     @Transactional
     public void addUser(User usr){
-        usr.setPassword(new BCryptPasswordEncoder().encode(usr.getPassword()));
+        usr.setPassword(bCrypt.encode(usr.getPassword()));
         userRepo.save(usr);
     }
 

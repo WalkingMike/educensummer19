@@ -11,4 +11,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     //@Query(value = "SELECT u FROM \"user\" u WHERE u.login = :login", nativeQuery = true)
     User findUserByLogin(String login);
+
+    Boolean existsByLogin(String login);
+
+    Boolean existsByEmail(String email);
 }
