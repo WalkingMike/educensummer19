@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service("userDetailsService")
@@ -40,36 +40,13 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username){
         User user = userRepo.findUserByLogin(username);
-//        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
-//        if (user != null) {
-//            builder = org.springframework.security.core.userdetails.User.withUsername(username);
-//            builder.password(user.getPassword());
-//            builder.roles(user.getRole().getAuthority());
-//        } else {
-//            throw new UsernameNotFoundException("User not found.");
-//        }
-//        System.out.println(user.getPassword());
-//        return builder.build();
-
-        System.out.println(UserPrinciple.build(user));
-        if (user != null)
-        {
-            return UserPrinciple.build(user);
-        }
-        return null;
-    }
-
-    @PostConstruct
-    public void init() {
-        User newUser = userRepo.findUserByLogin("test");
-        newUser.setPassword(bCrypt.encode("test"));
-        newUser.setRoleID((long) 3);
-        userRepo.save(newUser);
+        return UserPrinciple.build(user);
     }
 
     @Transactional
     public void addUser(User usr){
         usr.setPassword(bCrypt.encode(usr.getPassword()));
+        usr.setRegisterDate(new Date());
         userRepo.save(usr);
     }
 
