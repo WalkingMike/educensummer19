@@ -20,6 +20,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private final UserRepo userRepo;
+
     @Autowired
     private final RoleService roleService;
 
@@ -37,6 +38,13 @@ public class UserService implements UserDetailsService {
         return usr;
     }
 
+    @Transactional
+    public User getUserByLogin(String username){
+        User user = userRepo.findUserByLogin(username);
+        return user;
+    }
+
+    //for authorization only
     @Transactional
     public UserDetails loadUserByUsername(String username){
         User user = userRepo.findUserByLogin(username);
@@ -63,7 +71,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void modifyUserRole(String login, String role){
         User usr = userRepo.findUserByLogin(login);
-        usr.setRole(roleService.getRoleByName(role));
+        usr.setRoleID(roleService.getRoleByName(role).getId());
         userRepo.save(usr);
     }
 }

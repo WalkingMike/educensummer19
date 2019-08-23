@@ -15,17 +15,17 @@ public class RegionController {
     @Autowired
     private final RegionService regionService;
 
-    @RequestMapping(value = "/region/selectall", method = RequestMethod.GET)
+    @GetMapping (value = "/region/selectall")
     public @ResponseBody List<Region> selectAll() {
         return regionService.getAll();
     }
 
-    @RequestMapping(value = "/region/add", method = RequestMethod.POST)
+    @PostMapping(value = "/region/add")
     public void addRegion(@RequestBody Region region) {
         regionService.addRegion(region);
     }
 
-    @RequestMapping(value = "/region/remove", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/region/remove")
     public void removeRegion(@RequestParam Long id) {
         regionService.removeRegion(id);
     }

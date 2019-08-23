@@ -4,6 +4,7 @@ import com.deskdev.helpdesk.model.User;
 import com.deskdev.helpdesk.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,26 +22,32 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('admin')")
     public @ResponseBody User getUserByID(@RequestParam Long id) {
         return usrService.getUserByID(id);
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    @GetMapping(value = "/userLogin/")
+    public @ResponseBody User getUserByLogin(@RequestParam String login) {
+        return usrService.getUserByLogin(login);
+    }
+
+    @PostMapping(value = "/user/add")
     public void addUser(@RequestBody User usr) {
         usrService.addUser(usr);
     }
 
-    @RequestMapping(value = "/user/remove", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/user/remove")
     public void removeUser(@RequestParam Long id) {
         usrService.removeUser(id);
     }
 
-    @RequestMapping(value = "/user/removebylogin", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/user/removebylogin")
     public void removeUserByLogin(@RequestParam String login) {
         usrService.removeUserByLogin(login);
     }
 
-    @RequestMapping(value = "/user/modifyrole", method = RequestMethod.PUT)
+    @PutMapping(value = "/user/modifyrole")
     public void modifyUserRole(@RequestParam String login, @RequestParam String role) {
         usrService.modifyUserRole(login, role);
     }

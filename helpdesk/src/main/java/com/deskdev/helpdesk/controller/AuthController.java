@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -43,9 +43,9 @@ public class AuthController {
     JwtProvider jwtProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestParam String login, @RequestParam String pass) {
+    public ResponseEntity<?> authenticateUser(@RequestBody User user) {
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, pass);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword());
 
         Authentication authentication = authenticationManager.authenticate(token);
 
