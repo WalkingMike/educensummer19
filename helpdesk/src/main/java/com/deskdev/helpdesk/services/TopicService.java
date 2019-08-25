@@ -4,6 +4,7 @@ import com.deskdev.helpdesk.model.Topic;
 import com.deskdev.helpdesk.repo.TopicRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,7 +18,7 @@ public class TopicService {
 
     @Transactional
     public List<Topic> getAll(){
-        return topicRepo.findAll();
+        return topicRepo.findAll(new Sort(Sort.Direction.DESC, "topicDate"));
     }
 
     @Transactional

@@ -1,7 +1,8 @@
 package com.deskdev.helpdesk.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -31,8 +32,9 @@ public class Topic {
     private Long regionID;
 
     //@JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="creator_id", insertable = false, updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private User creator;
 
     //@JsonIgnore

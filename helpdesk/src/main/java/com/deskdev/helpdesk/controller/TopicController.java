@@ -17,7 +17,6 @@ public class TopicController {
 
     @RequestMapping(value = "/topic/selectall", method = RequestMethod.GET)
     public @ResponseBody List<Topic> selectAll() {
-
         return topicService.getAll();
     }
 
