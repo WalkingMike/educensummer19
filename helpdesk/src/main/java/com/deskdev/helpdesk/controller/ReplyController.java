@@ -15,17 +15,17 @@ public class ReplyController {
     @Autowired
     private final ReplyService replyService;
 
-    @RequestMapping(value = "/reply/selectall", method = RequestMethod.GET)
+    @GetMapping(value = "/reply/selectall")
     public @ResponseBody List<Reply> selectAll() {
         return replyService.getAll();
     }
 
-    @RequestMapping(value = "/reply/add", method = RequestMethod.POST)
+    @PostMapping(value = "/reply/add")
     public void addReply(@RequestBody Reply reply) {
         replyService.addReply(reply);
     }
 
-    @RequestMapping(value = "/reply/remove", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/reply/remove")
     public void removeReply(@RequestParam Long id) {
         replyService.removeReply(id);
     }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -35,14 +36,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User getUserByID(long id){
-        User usr = userRepo.findById(id).orElseThrow(RuntimeException::new);
+    public User getUserByID(Long id){
+        User usr = userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
         return usr;
     }
 
     @Transactional
-    public List<String> getUserNameLoginByID(long id){
-        User usr = userRepo.findById(id).orElseThrow(RuntimeException::new);
+    public List<String> getUserNameLoginByID(Long id){
+        User usr = userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+        System.out.println(usr);
         return Stream.of(usr.getName(), usr.getLogin()).collect(Collectors.toList());
     }
 

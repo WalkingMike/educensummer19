@@ -1,6 +1,6 @@
 package com.deskdev.helpdesk.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -37,11 +37,11 @@ public class User{
 
     //@JsonIgnore
     @OneToOne
-    @JoinColumn(name="role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name="role_id", insertable = false, updatable = false)
     private Role role;
 
     //@JsonIgnore
     @OneToOne
-    @JoinColumn(name="region_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name="region_id", insertable = false, updatable = false)
     private Region region;
 }

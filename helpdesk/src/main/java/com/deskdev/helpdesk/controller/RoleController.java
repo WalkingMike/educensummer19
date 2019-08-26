@@ -15,17 +15,17 @@ public class RoleController {
     @Autowired
     private final RoleService roleService;
 
-    @RequestMapping(value = "/role/selectall", method = RequestMethod.GET)
+    @GetMapping(value = "/role/selectall")
     public @ResponseBody List<Role> selectAll() {
         return roleService.getAll();
     }
 
-    @RequestMapping(value = "/role/add", method = RequestMethod.POST)
+    @PostMapping(value = "/role/add")
     public void addRole(@RequestBody Role role) {
         roleService.addRole(role);
     }
 
-    @RequestMapping(value = "/role/remove", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/role/remove")
     public void removeRole(@RequestParam Long id) {
         roleService.removeRole(id);
     }
