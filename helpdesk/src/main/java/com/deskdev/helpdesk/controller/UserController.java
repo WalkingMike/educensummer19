@@ -16,15 +16,19 @@ public class UserController {
     @Autowired
     private final UserService usrService;
 
-    @RequestMapping(value = "/user/selectall", method = RequestMethod.GET)
+    @GetMapping(value = "/user/selectall")
     public @ResponseBody List<User> selectAll() {
         return usrService.getAll();
     }
 
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('admin')")
+    @GetMapping(value = "/user/")
     public @ResponseBody User getUserByID(@RequestParam Long id) {
         return usrService.getUserByID(id);
+    }
+
+    @GetMapping(value = "/userNameLogin/")
+    public @ResponseBody List<String> getUserNameLoginByID(@RequestParam Long id) {
+        return usrService.getUserNameLoginByID(id);
     }
 
     @GetMapping(value = "/userLogin/")
@@ -43,11 +47,13 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/user/removebylogin")
+    @PreAuthorize("hasRole('admin')")
     public void removeUserByLogin(@RequestParam String login) {
         usrService.removeUserByLogin(login);
     }
 
     @PutMapping(value = "/user/modifyrole")
+    @PreAuthorize("hasRole('admin')")
     public void modifyUserRole(@RequestParam String login, @RequestParam String role) {
         usrService.modifyUserRole(login, role);
     }

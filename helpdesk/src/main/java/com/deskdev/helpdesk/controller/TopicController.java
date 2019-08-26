@@ -15,17 +15,22 @@ public class TopicController {
     @Autowired
     private final TopicService topicService;
 
-    @RequestMapping(value = "/topic/selectall", method = RequestMethod.GET)
+    @GetMapping(value = "/topic/selectall")
     public @ResponseBody List<Topic> selectAll() {
         return topicService.getAll();
     }
 
-    @RequestMapping(value = "/topic/add", method = RequestMethod.POST)
+    @GetMapping(value = "/topic/selectall/region")
+    public @ResponseBody List<Topic> selectAllByRegionID(@RequestParam Long id) {
+        return topicService.getAllByRegion(id);
+    }
+
+    @PostMapping(value = "/topic/add")
     public void addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
     }
 
-    @RequestMapping(value = "/topic/remove", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/topic/remove")
     public void removeTopic(@RequestParam Long id) {
         topicService.removeTopic(id);
     }

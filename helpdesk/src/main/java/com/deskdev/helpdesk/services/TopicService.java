@@ -22,6 +22,11 @@ public class TopicService {
     }
 
     @Transactional
+    public List<Topic> getAllByRegion(Long id){
+        return topicRepo.findAllByRegionIDOrderByTopicDateDesc(id);
+    }
+
+    @Transactional
     public void addTopic(Topic tpc){
         topicRepo.save(tpc);
     }

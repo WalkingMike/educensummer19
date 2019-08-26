@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service("userDetailsService")
 @AllArgsConstructor
@@ -34,8 +36,14 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User getUserByID(long id){
-        User usr = userRepo.findById(id).orElseThrow(() -> new RuntimeException());
+        User usr = userRepo.findById(id).orElseThrow(RuntimeException::new);
         return usr;
+    }
+
+    @Transactional
+    public List<String> getUserNameLoginByID(long id){
+        User usr = userRepo.findById(id).orElseThrow(RuntimeException::new);
+        return Stream.of(usr.getName(), usr.getLogin()).collect(Collectors.toList());
     }
 
     @Transactional
