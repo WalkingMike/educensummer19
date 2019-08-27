@@ -19,7 +19,7 @@ public class Topic {
     @Column
     private String subject;
 
-    @Column
+    @Column(length = 1000)
     private String content;
 
     @Column(name="topic_date")
