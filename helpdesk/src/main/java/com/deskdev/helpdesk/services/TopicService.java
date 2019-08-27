@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -24,6 +25,19 @@ public class TopicService {
     @Transactional
     public List<Topic> getAllByRegion(Long id){
         return topicRepo.findAllByRegionIDOrderByTopicDateDesc(id);
+    }
+
+    @Transactional
+    public String getTopicContent(Long id){
+        Topic topic = topicRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+        return topic.getContent();
+    }
+
+    @Transactional
+    public void setTopicContent(Long id, String content){
+        Topic topic = topicRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+        topic.setContent(content);
+        topicRepo.save(topic);
     }
 
     @Transactional

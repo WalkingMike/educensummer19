@@ -25,9 +25,19 @@ public class TopicController {
         return topicService.getAllByRegion(id);
     }
 
+    @GetMapping(value = "/topic/content")
+    public @ResponseBody String getTopicContent(@RequestParam Long id) {
+        return topicService.getTopicContent(id);
+    }
+
     @PostMapping(value = "/topic/add")
     public void addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
+    }
+
+    @PutMapping(value = "/topic/modifycontent")
+    public void modifyUserRole(@RequestParam Long id, @RequestParam String content) {
+        topicService.setTopicContent(id, content);
     }
 
     @DeleteMapping(value = "/topic/remove")

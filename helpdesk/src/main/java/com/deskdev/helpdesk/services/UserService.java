@@ -25,9 +25,6 @@ public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
 
     @Autowired
-    private final RoleService roleService;
-
-    @Autowired
     private final PasswordEncoder bCrypt;
 
     @Transactional
@@ -79,9 +76,27 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void modifyUserRole(String login, String role){
+    public void modifyUserRole(String login, Long roleID){
         User usr = userRepo.findUserByLogin(login);
-        usr.setRoleID(roleService.getRoleByName(role).getId());
+        usr.setRoleID(roleID);
+        userRepo.save(usr);
+    }
+    @Transactional
+    public void modifyUserName(String login, String name){
+        User usr = userRepo.findUserByLogin(login);
+        usr.setName(name);
+        userRepo.save(usr);
+    }
+    @Transactional
+    public void modifyUserPassword(String login, String password){
+        User usr = userRepo.findUserByLogin(login);
+        usr.setPassword(bCrypt.encode(password));
+        userRepo.save(usr);
+    }
+    @Transactional
+    public void modifyUserRegion(String login, Long regionID){
+        User usr = userRepo.findUserByLogin(login);
+        usr.setRegionID(regionID);
         userRepo.save(usr);
     }
 }
