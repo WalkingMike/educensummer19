@@ -60,8 +60,9 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addUser(User usr){
-        usr.setPassword(bCrypt.encode(usr.getPassword()));
-        usr.setRegisterDate(new Date());
+        if (!usr.getPassword().equals(" ")) usr.setPassword(bCrypt.encode(usr.getPassword()));
+        else usr.setPassword(this.getUserByID(usr.getId()).getPassword());
+        if (usr.getRegisterDate() == null) usr.setRegisterDate(new Date());
         userRepo.save(usr);
     }
 
@@ -73,30 +74,5 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void removeUserByLogin(String login){
         userRepo.deleteById(userRepo.findUserIDByLogin(login));
-    }
-
-    @Transactional
-    public void modifyUserRole(String login, Long roleID){
-        User usr = userRepo.findUserByLogin(login);
-        usr.setRoleID(roleID);
-        userRepo.save(usr);
-    }
-    @Transactional
-    public void modifyUserName(String login, String name){
-        User usr = userRepo.findUserByLogin(login);
-        usr.setName(name);
-        userRepo.save(usr);
-    }
-    @Transactional
-    public void modifyUserPassword(String login, String password){
-        User usr = userRepo.findUserByLogin(login);
-        usr.setPassword(bCrypt.encode(password));
-        userRepo.save(usr);
-    }
-    @Transactional
-    public void modifyUserRegion(String login, Long regionID){
-        User usr = userRepo.findUserByLogin(login);
-        usr.setRegionID(regionID);
-        userRepo.save(usr);
     }
 }
