@@ -51,25 +51,4 @@ public class UserController {
     public void removeUserByLogin(@RequestParam String login) {
         usrService.removeUserByLogin(login);
     }
-
-    @PutMapping(value = "/user/modifyrole")
-    @PreAuthorize("hasRole('admin')")
-    public void modifyUserRole(@RequestParam String login, @RequestParam Long roleID) {
-        usrService.modifyUserRole(login, roleID);
-    }
-
-    @PutMapping(value = "/user/modifyregion")
-    public void modifyUserRegion(@RequestParam String login, @RequestParam Long regionID) {
-        usrService.modifyUserRegion(login, regionID);
-    }
-
-    @PutMapping(value = "/user/modifyname")
-    public void modifyUserName(@RequestParam String login, @RequestParam String name) {
-        usrService.modifyUserName(login, name);
-    }
-
-    @PutMapping(value = "/user/modifypassword")
-    public void modifyUserRole(@RequestParam String login, @RequestParam String password) {
-        usrService.modifyUserPassword(login, password);
-    }
 }
