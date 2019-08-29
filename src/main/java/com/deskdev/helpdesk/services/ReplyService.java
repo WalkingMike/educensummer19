@@ -22,6 +22,11 @@ public class ReplyService {
     }
 
     @Transactional
+    public List<Reply> getAllByTopic(Long topID){
+        return replyRepo.getAllByTopicIDOrderByReplyDateAsc(topID);
+    }
+
+    @Transactional
     public void addReply(Reply rply){
         replyRepo.save(rply);
     }

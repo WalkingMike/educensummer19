@@ -4,6 +4,7 @@ import com.deskdev.helpdesk.model.Role;
 import com.deskdev.helpdesk.services.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +22,13 @@ public class RoleController {
     }
 
     @PostMapping(value = "/role/add")
+    @PreAuthorize("hasRole('admin')")
     public void addRole(@RequestBody Role role) {
         roleService.addRole(role);
     }
 
     @DeleteMapping(value = "/role/remove")
+    @PreAuthorize("hasRole('admin')")
     public void removeRole(@RequestParam Long id) {
         roleService.removeRole(id);
     }

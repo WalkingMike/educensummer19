@@ -35,12 +35,10 @@ public class User{
     @Column(name = "region_id")
     private Long regionID;
 
-    //@JsonIgnore
     @OneToOne
     @JoinColumn(name="role_id", insertable = false, updatable = false)
     private Role role;
 
-    //@JsonIgnore
     @OneToOne
     @JoinColumn(name="region_id", insertable = false, updatable = false)
     private Region region;

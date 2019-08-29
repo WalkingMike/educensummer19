@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/topic/selectall", "/reply/selectall", "/region/selectall",
-                            "/topic/selectall/region**", "/userNameLogin/**").permitAll()
+                            "/reply/selectall/topic", "/topic/selectall/region**", "/userNameLogin/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

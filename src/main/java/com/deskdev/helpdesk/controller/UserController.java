@@ -17,6 +17,7 @@ public class UserController {
     private final UserService usrService;
 
     @GetMapping(value = "/user/selectall")
+    @PreAuthorize("hasRole('admin')")
     public @ResponseBody List<User> selectAll() {
         return usrService.getAll();
     }
@@ -37,11 +38,13 @@ public class UserController {
     }
 
     @PostMapping(value = "/user/add")
+    @PreAuthorize("hasRole('admin') or hasRole('user')")
     public void addUser(@RequestBody User usr) {
         usrService.addUser(usr);
     }
 
     @DeleteMapping(value = "/user/remove")
+    @PreAuthorize("hasRole('admin')")
     public void removeUser(@RequestParam Long id) {
         usrService.removeUser(id);
     }

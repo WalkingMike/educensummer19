@@ -31,13 +31,11 @@ public class Topic {
     @Column(name="region_id")
     private Long regionID;
 
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="creator_id", insertable = false, updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
     private User creator;
 
-    //@JsonIgnore
     @OneToOne
     @JoinColumn(name="region_id", insertable = false, updatable = false)
     private Region region;
