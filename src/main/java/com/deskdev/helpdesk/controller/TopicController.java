@@ -4,6 +4,7 @@ import com.deskdev.helpdesk.model.Topic;
 import com.deskdev.helpdesk.services.TopicService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class TopicController {
     }
 
     @PutMapping(value = "/topic/modifycontent")
+    @PreAuthorize("hasRole('admin') or hasRole('user')")
     public void modifyUserRole(@RequestParam Long id, @RequestParam String content) {
         topicService.setTopicContent(id, content);
     }

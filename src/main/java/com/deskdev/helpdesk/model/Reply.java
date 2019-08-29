@@ -28,13 +28,11 @@ public class Reply {
     @Column(name="topic_id")
     private Long topicID;
 
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id", nullable = false, insertable = false, updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
     private User author;
 
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="topic_id", nullable = false, insertable = false, updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
